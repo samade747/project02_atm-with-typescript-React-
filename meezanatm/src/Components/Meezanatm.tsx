@@ -7,7 +7,18 @@ interface UserType {
     amount?: number
 }
 
+async function  UseAtm(){
 
+    const userInput: UserType = await inquirer.prompt([
+        {
+            type: "input",
+            name: "userId",
+            message: "Please Enter Your User Id: ",
+            validate: (value) => {
+                if (value === "") {
+        }
+    ])    
+}
 
 
 
