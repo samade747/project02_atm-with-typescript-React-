@@ -1,15 +1,16 @@
 // import { useState } from 'react'
 // import React from 'react'
 import './App.css'
-import Meezanatm from './Components/meezanatm'
+import UseAtm from './Components/Meezanatm'
 
-function App() {
-  
 
+
+function App() { 
   return (
-    <>
-    <Meezanatm />
-    </>
+
+    <div className='App'>
+      <UseAtm />
+    </div>
   )
 }
 
