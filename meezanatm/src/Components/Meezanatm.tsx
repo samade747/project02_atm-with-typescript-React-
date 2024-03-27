@@ -16,7 +16,7 @@ function UseAtm() {
     const [fastCashAmount, setFastCashAmount] = useState('');
     const [balance, setBalance] = useState(0);
 
-    // Mock account data
+    //  account data
     const accountData: AccountData[] = [
         { userId: 123, accountNumber: '123456789', pin: '1234', balance: 5000 },
         { userId: 456, accountNumber: '987654321', pin: '5678', balance: 10000 }
@@ -25,20 +25,20 @@ function UseAtm() {
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // Find account data based on provided userId
+        // Find account 
         const selectedAccount = accountData.find(account => account.userId.toString() === userId);
         if (!selectedAccount) {
             console.log('User ID not found');
             return;
         }
 
-        // Validate PIN
+        // pin
         if (selectedAccount.pin !== pin) {
             console.log('Incorrect PIN');
             return;
         }
 
-        // Perform withdrawal if transaction type is Withdrawal
+        // Perform withdrawal 
         if (transactionType === 'Withdraw' && parseInt(amount) > 0) {
             if (parseInt(amount) <= selectedAccount.balance) {
                 const remainingBalance = selectedAccount.balance - parseInt(amount);
@@ -49,8 +49,7 @@ function UseAtm() {
             }
         }
 
-        // Perform other actions based on the user input
-        // For demonstration, let's just log the input for now
+        
         console.log({
             userId,
             pin,
@@ -86,7 +85,7 @@ function UseAtm() {
                         <option value="Withdraw">Withdraw</option>
                         <option value="Deposit">Deposit</option>
                         <option value="Balance Enquiry">Balance Enquiry</option>
-                        {/* Add more options as needed */}
+                        
                     </select>
                 </label>
                 <br />
@@ -104,7 +103,7 @@ function UseAtm() {
                             <option value="500">500</option>
                             <option value="1000">1000</option>
                             <option value="2000">2000</option>
-                            {/* Add more options as needed */}
+                            
                         </select>
                     </label>
                 )}

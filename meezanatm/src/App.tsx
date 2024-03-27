@@ -9,7 +9,12 @@ function App() {
   return (
 
     <div className='App'>
+      <div>
+        <h3>Meezan Atm</h3>
+      
+
       <UseAtm />
+      </div>
     </div>
   )
 }
