@@ -1,31 +1,60 @@
 import React, { useState } from 'react';
 
+interface AccountData {
+    userId: number;
+    accountNumber: string;
+    pin: string;
+    balance: number;
+}
+
 function UseAtm() {
     const [userId, setUserId] = useState('');
     const [pin, setPin] = useState('');
-    const [accountType, setAccountType] = useState('');
+    const [accountNumber, setAccountNumber] = useState('');
     const [transactionType, setTransactionType] = useState('');
     const [amount, setAmount] = useState('');
     const [fastCashAmount, setFastCashAmount] = useState('');
     const [balance, setBalance] = useState(0);
 
+    // Mock account data
+    const accountData: AccountData[] = [
+        { userId: 123, accountNumber: '123456789', pin: '1234', balance: 5000 },
+        { userId: 456, accountNumber: '987654321', pin: '5678', balance: 10000 }
+    ];
+
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (transactionType === 'Withdraw') {
-            if (balance >= parseInt(amount)) {
-                const remainingBalance = balance - parseInt(amount);
+
+        // Find account data based on provided userId
+        const selectedAccount = accountData.find(account => account.userId.toString() === userId);
+        if (!selectedAccount) {
+            console.log('User ID not found');
+            return;
+        }
+
+        // Validate PIN
+        if (selectedAccount.pin !== pin) {
+            console.log('Incorrect PIN');
+            return;
+        }
+
+        // Perform withdrawal if transaction type is Withdrawal
+        if (transactionType === 'Withdraw' && parseInt(amount) > 0) {
+            if (parseInt(amount) <= selectedAccount.balance) {
+                const remainingBalance = selectedAccount.balance - parseInt(amount);
                 setBalance(remainingBalance);
                 console.log(`Withdrawn PKR ${amount}. Remaining balance: PKR ${remainingBalance}`);
             } else {
                 console.log('Insufficient balance');
             }
         }
+
         // Perform other actions based on the user input
         // For demonstration, let's just log the input for now
         console.log({
             userId,
             pin,
-            accountType,
+            accountNumber,
             transactionType,
             amount,
             fastCashAmount
@@ -41,17 +70,13 @@ function UseAtm() {
                 </label>
                 <br />
                 <label>
-                    Pin:
+                    PIN:
                     <input type="password" value={pin} onChange={(e) => setPin(e.target.value)} />
                 </label>
                 <br />
                 <label>
-                    Account Type:
-                    <select value={accountType} onChange={(e) => setAccountType(e.target.value)}>
-                        <option value="">Select</option>
-                        <option value="Saving">Saving</option>
-                        <option value="Current">Current</option>
-                    </select>
+                    Account Number:
+                    <input type="text" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} />
                 </label>
                 <br />
                 <label>
@@ -66,13 +91,10 @@ function UseAtm() {
                 </label>
                 <br />
                 {transactionType === 'Withdraw' && (
-                    <>
-                        <label>
-                            Amount:
-                            <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
-                        </label>
-                        <div>Balance: PKR {balance}</div>
-                    </>
+                    <label>
+                        Amount:
+                        <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                    </label>
                 )}
                 {transactionType === 'Fast Cash' && (
                     <label>
@@ -89,6 +111,9 @@ function UseAtm() {
                 <br />
                 <button type="submit">Submit</button>
             </form>
+            <div>
+                Balance: PKR {balance}
+            </div>
         </div>
     );
 }
